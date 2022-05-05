@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelularAutomatonPRNG", "Cel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelularAutomatonPRNG.Tests", "CelularAutomatonPRNG.Tests\CelularAutomatonPRNG.Tests.csproj", "{C03C71A3-AEC4-4447-9650-58DAA773ED8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellularAutomatonPRNG.Program", "CellularAutomatonPRNG.Program\CellularAutomatonPRNG.Program.csproj", "{10A6FFA3-9A29-4262-801B-9FADA1F943A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C03C71A3-AEC4-4447-9650-58DAA773ED8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03C71A3-AEC4-4447-9650-58DAA773ED8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C03C71A3-AEC4-4447-9650-58DAA773ED8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A6FFA3-9A29-4262-801B-9FADA1F943A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A6FFA3-9A29-4262-801B-9FADA1F943A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A6FFA3-9A29-4262-801B-9FADA1F943A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A6FFA3-9A29-4262-801B-9FADA1F943A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

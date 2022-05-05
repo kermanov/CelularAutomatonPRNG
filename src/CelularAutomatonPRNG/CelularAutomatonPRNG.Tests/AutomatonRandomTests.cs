@@ -57,5 +57,34 @@ namespace CelularAutomatonPRNG.Tests
                 Assert.True(randomDouble < maxValue);
             }
         }
+
+        [Fact]
+        public void GetBytesTest()
+        {
+            var random = new CellularAutomatonRandom(30, 123);
+            for (int i = 0; i < 128; ++i)
+            {
+                var bytes = random.GetBytes(i);
+                Assert.Equal(i, bytes.Length);
+            }
+        }
+
+        [Fact]
+        public void ResultPersistenceTest()
+        {
+            var random = new CellularAutomatonRandom(30, 123);
+            var firstRandInt = random.Next();
+            var firstRandDouble = random.NextDouble();
+            var firstRandByte = random.GetBytes(1)[0];
+
+            random = new CellularAutomatonRandom(30, 123);
+            var secondRandInt = random.Next();
+            var secondRandDouble = random.NextDouble();
+            var secondRandByte = random.GetBytes(1)[0];
+
+            Assert.Equal(firstRandInt, secondRandInt);
+            Assert.Equal(firstRandDouble, secondRandDouble);
+            Assert.Equal(firstRandByte, secondRandByte);
+        }
     }
 }

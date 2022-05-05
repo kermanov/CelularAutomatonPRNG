@@ -43,6 +43,16 @@ namespace CelularAutomatonPRNG
             return BitConverter.Int64BitsToDouble((long)uInt64InDoubleForm) - 1d;
         }
 
+        public byte[] GetBytes(int count)
+        {
+            var bytes = new byte[count];
+            for (int i = 0; i < count; i += 8)
+            {
+                Array.Copy(GetNextState(), 0, bytes, i, i + 8 < count ? 8 : count - i);
+            }
+            return bytes;
+        }
+
         private byte[] GetNextState()
         {
             _currentState = _automaton.GetNextState(_currentState);
