@@ -1,0 +1,6 @@
+default_random - 14 failed: ['random_excursion_variant_test']
+rule_89_seed_123 - 11 failed: ['longest_run_ones_in_a_block_test', 'binary_matrix_rank_test', 'dft_test', 'overlapping_template_matching_test']
+rule_86_seed_123 - 11 failed: ['longest_run_ones_in_a_block_test', 'binary_matrix_rank_test', 'dft_test', 'overlapping_template_matching_test']
+rule_45_seed_123 - 11 failed: ['longest_run_ones_in_a_block_test', 'binary_matrix_rank_test', 'dft_test', 'overlapping_template_matching_test']
+rule_30_seed_123 - 11 failed: ['longest_run_ones_in_a_block_test', 'binary_matrix_rank_test', 'dft_test', 'overlapping_template_matching_test']
+rule_135_seed_123 - 11 failed: ['longest_run_ones_in_a_block_test', 'binary_matrix_rank_test', 'dft_test', 'overlapping_template_matching_test']

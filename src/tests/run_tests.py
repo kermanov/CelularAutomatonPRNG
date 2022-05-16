@@ -17,14 +17,30 @@ def run(rule: int):
 
 
 
-threadsCount = 3
-rulesToCheck = 3
-startRule = 253
-for i in range(startRule, startRule + rulesToCheck, threadsCount):
-    threads = [threading.Thread(target=run, args=(i + t,)) for t in range(threadsCount)]
-    for thread in threads:
-        thread.start()
-    for thread in threads:
-        thread.join()
+# threadsCount = 3
+# rulesToCheck = 3
+# startRule = 253
+# for i in range(startRule, startRule + rulesToCheck, threadsCount):
+#     threads = [threading.Thread(target=run, args=(i + t,)) for t in range(threadsCount)]
+#     for thread in threads:
+#         thread.start()
+#     for thread in threads:
+#         thread.join()
 
-print("All done.")
+from rating import getRating
+
+rules = [89, 86, 45, 30, 135]
+# rules = [1]
+
+threads = [threading.Thread(target=run, args=(rule,)) for rule in rules]
+for thread in threads:
+    thread.start()
+for thread in threads:
+    thread.join()
+
+# for rule in rules:
+#     run(rule)
+
+getRating(rules)
+
+print("Done.")

@@ -41,7 +41,7 @@ TEST: dft_test
   P=0.0
 TEST: non_overlapping_template_matching_test
   PASS
-  P=0.9999993651234308
+  P=1.0000000350827458
 TEST: overlapping_template_matching_test
   B =  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   m =  10
@@ -184,7 +184,7 @@ runs_test                                0.0951925722230015 PASS
 longest_run_ones_in_a_block_test         0.0035599645236098912 FAIL
 binary_matrix_rank_test                  0.0                FAIL
 dft_test                                 0.0                FAIL
-non_overlapping_template_matching_test   0.9999993651234308 PASS
+non_overlapping_template_matching_test   1.0000000350827458 PASS
 overlapping_template_matching_test       8.887067178752519e-33 FAIL
 maurers_universal_test                   0.5636025686357455 PASS
 linear_complexity_test                   0.5704663543042076 PASS
