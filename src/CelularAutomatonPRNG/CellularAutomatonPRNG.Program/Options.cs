@@ -18,5 +18,8 @@ namespace CellularAutomatonPRNG.Program
 
         [Option('f', "file", Required = true, HelpText = "Set output file.")]
         public string FileName { get; set; }
+
+        [Option('d', "default", Required = false, HelpText = "Use default random.")]
+        public bool UseDefaultRandom { get; set; }
     }
 }

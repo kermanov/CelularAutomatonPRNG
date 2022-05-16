@@ -13,7 +13,11 @@ namespace CelularAutomatonPRNG
         public CellularAutomatonRandom(byte rule, int seed)
         {
             _automaton = new ElementaryCellularAutomaton(rule);
-            _currentState = BitConverter.GetBytes(((long)seed << 32) | (long)seed);
+            _currentState = new byte[4 * 2];
+            for (int i = 0; i < _currentState.Length / 4; ++i)
+            {
+                Array.Copy(BitConverter.GetBytes(seed), 0, _currentState, i * 4, 4);
+            }
 
             for (int i = 0; i < 32; ++i)
             {
