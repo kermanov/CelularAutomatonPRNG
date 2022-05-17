@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:cellular_automaton_viewer/celular_automaton.dart';
@@ -19,24 +20,29 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<List<bool>> states = [];
 
+  List<bool> initialState = [];
   int rule = 0;
   int length = 64;
   int iterations = 64;
   int seed = 1;
 
+  @override
+  void initState() {
+    super.initState();
+    initialState = List.filled(length, false);
+  }
+
   void generateStates() {
-    var automaton = CelularAutomaton(rule);
-
-    states = [];
-    var firstState = getIntBits(seed);
-    if (firstState.length < length) {
-      firstState.insertAll(
-          0, List<bool>.filled(length - firstState.length, false));
-    } else if (firstState.length > length) {
-      firstState = firstState.sublist(firstState.length - length);
+    var newLength = length;
+    var oldLength = initialState.length;
+    if (newLength > oldLength) {
+      initialState += List.filled(newLength - oldLength, false);
+    } else if (newLength < oldLength) {
+      initialState = initialState.sublist(0, newLength);
     }
-    states.add(firstState);
 
+    var automaton = CelularAutomaton(rule);
+    states = [initialState];
     for (int i = 1; i < iterations; ++i) {
       states.add(automaton.getNextState(states.last));
     }
@@ -50,6 +56,8 @@ class _MyAppState extends State<MyApp> {
     return bits.reversed.toList();
   }
 
+  final Random random = Random();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -59,44 +67,39 @@ class _MyAppState extends State<MyApp> {
             InteractiveViewer(
               maxScale: 10,
               minScale: 0.1,
-              // child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.stretch,
-              //     children: states
-              //         .map((state) => Expanded(
-              //               child: Row(
-              //                 mainAxisSize: MainAxisSize.min,
-              //                 mainAxisAlignment: MainAxisAlignment.center,
-              //                 children: state
-              //                     .map((bit) => AspectRatio(
-              //                           aspectRatio: 1,
-              //                           child: Container(
-              //                               color: bit
-              //                                   ? Colors.black
-              //                                   : Colors.white),
-              //                         ))
-              //                     .toList(),
-              //               ),
-              //             ))
-              //         .toList()),
-
-              // child: ListView.builder(
-              //   itemCount: states.length,
-              //   itemBuilder: (context, index) {
-              //     var state = states[index];
-              //     var string = state.map((e) => e ? "⬛" : " ").join();
-              //     return Text(
-              //       string,
-              //       style: TextStyle(
-              //         fontFeatures: [FontFeature.tabularFigures()],
-              //       ),
-              //     );
-              //   },
-              // ),
-
-              child: CustomPaint(
-                painter: AutomatonPainter(states),
-                size: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height),
+              child: Stack(
+                children: [
+                  CustomPaint(
+                    painter: AutomatonPainter(states),
+                    size: Size(MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.height),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int i = 0; i < length; ++i)
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              initialState[i] = !initialState[i];
+                              generateStates();
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color:
+                                  initialState[i] ? Colors.black : Colors.white,
+                              border: Border.all(width: 0.2),
+                            ),
+                            width: MediaQuery.of(context).size.width /
+                                (iterations * 2),
+                            height: MediaQuery.of(context).size.width /
+                                (iterations * 2),
+                          ),
+                        )
+                    ],
+                  ),
+                ],
               ),
             ),
             Row(
@@ -111,9 +114,9 @@ class _MyAppState extends State<MyApp> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Controls",
+                          "Cellular Automaton Viewer",
                           style: TextStyle(
-                            fontSize: 32,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -130,20 +133,11 @@ class _MyAppState extends State<MyApp> {
                           onChanged: (value) => rule = int.parse(value),
                           controller:
                               TextEditingController(text: rule.toString()),
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Seed',
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) => seed = int.parse(value),
-                          controller:
-                              TextEditingController(text: seed.toString()),
+                          onSubmitted: (_) => {
+                            setState(() {
+                              generateStates();
+                            }),
+                          },
                         ),
                         const SizedBox(height: 8),
                         TextField(
@@ -155,9 +149,16 @@ class _MyAppState extends State<MyApp> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          onChanged: (value) => length = int.parse(value),
+                          onChanged: (value) {
+                            length = int.parse(value);
+                          },
                           controller:
                               TextEditingController(text: length.toString()),
+                          onSubmitted: (_) => {
+                            setState(() {
+                              generateStates();
+                            }),
+                          },
                         ),
                         const SizedBox(height: 8),
                         TextField(
@@ -172,13 +173,35 @@ class _MyAppState extends State<MyApp> {
                           onChanged: (value) => iterations = int.parse(value),
                           controller: TextEditingController(
                               text: iterations.toString()),
+                          onSubmitted: (_) => {
+                            setState(() {
+                              generateStates();
+                            }),
+                          },
                         ),
                         const SizedBox(height: 8),
-                        OutlinedButton(
-                          child: const Text("Generate"),
-                          onPressed: () => setState(() {
-                            generateStates();
-                          }),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: ElevatedButton(
+                                child: const Text("Update"),
+                                onPressed: () => setState(() {
+                                  generateStates();
+                                }),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: OutlinedButton(
+                                child: const Text("Clear"),
+                                onPressed: () => setState(() {
+                                  initialState = List.filled(length, false);
+                                  generateStates();
+                                }),
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
