@@ -18,16 +18,16 @@ namespace CelularAutomatonPRNG
         public CellularAutomatonRandom(byte rule, int seed)
         {
             _automaton = new ElementaryCellularAutomaton(rule);
-            _currentState = new byte[4];
+            _currentState = new byte[5];
             _currentByteIndex = 0;
 
             if (seed != 0)
             {
-                Array.Copy(BitConverter.GetBytes(seed), 0, _currentState, 0, _currentState.Length);
+                Array.Copy(BitConverter.GetBytes(seed), 0, _currentState, 0, 4);
             }
             else
             {
-                _currentState[^1] = 128;
+                _currentState[^1] = 0b10000000;
             }
 
             for (int i = 0; i < 20; ++i)
