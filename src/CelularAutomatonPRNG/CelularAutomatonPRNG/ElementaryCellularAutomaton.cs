@@ -40,7 +40,7 @@ namespace CelularAutomatonPRNG
         private byte[] BitArrayToBytes(BitArray bitArray)
         {
             var bytes = new byte[bitArray.Length / 8];
-            for (int i = 0; i < bitArray.Length / 8; ++i)
+            for (int i = 0; i < bytes.Length; ++i)
             {
                 bytes[i] = BitArrayToByte(bitArray, i * 8);
             }

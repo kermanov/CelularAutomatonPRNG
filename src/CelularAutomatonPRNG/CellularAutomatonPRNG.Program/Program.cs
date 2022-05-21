@@ -25,7 +25,8 @@ namespace CellularAutomatonPRNG.Program
                         if (!o.UseDefaultRandom)
                         {
                             var random = new CellularAutomatonRandom((byte)o.Rule, o.Seed);
-                            bytes = random.GetBytes(o.OutputSizeKilobytes * 1024);
+                            bytes = new byte[o.OutputSizeKilobytes * 1024];
+                            random.GetBytes(bytes);
                         }
                         else
                         {

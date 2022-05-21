@@ -62,11 +62,8 @@ namespace CelularAutomatonPRNG.Tests
         public void GetBytesTest()
         {
             var random = new CellularAutomatonRandom(30, 123);
-            for (int i = 0; i < 128; ++i)
-            {
-                var bytes = random.GetBytes(i);
-                Assert.Equal(i, bytes.Length);
-            }
+            var arrayToFill = new byte[128];
+            random.GetBytes(arrayToFill);
         }
 
         [Fact]
@@ -75,16 +72,26 @@ namespace CelularAutomatonPRNG.Tests
             var random = new CellularAutomatonRandom(30, 123);
             var firstRandInt = random.Next();
             var firstRandDouble = random.NextDouble();
-            var firstRandByte = random.GetBytes(1)[0];
+            var firstBytes = new byte[1];
+            random.GetBytes(firstBytes);
 
             random = new CellularAutomatonRandom(30, 123);
             var secondRandInt = random.Next();
             var secondRandDouble = random.NextDouble();
-            var secondRandByte = random.GetBytes(1)[0];
+            var secondBytes = new byte[1];
+            random.GetBytes(secondBytes);
 
             Assert.Equal(firstRandInt, secondRandInt);
             Assert.Equal(firstRandDouble, secondRandDouble);
-            Assert.Equal(firstRandByte, secondRandByte);
+            Assert.Equal(firstBytes[0], secondBytes[0]);
+        }
+
+        [Fact]
+        public void Test()
+        {
+            var random = new CellularAutomatonRandom(89, 123);
+            var bytes = new byte[128];
+            random.GetBytes(bytes);
         }
     }
 }
