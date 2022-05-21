@@ -23,14 +23,14 @@ namespace CelularAutomatonPRNG
 
             if (seed != 0)
             {
-                Array.Copy(BitConverter.GetBytes(seed), 0, _currentState, 0, 4);
+                Array.Copy(BitConverter.GetBytes(seed), _currentState, 4);
             }
             else
             {
                 _currentState[^1] = 0b10000000;
             }
 
-            for (int i = 0; i < 20; ++i)
+            for (int i = 0; i < 26; ++i)
             {
                 GetNextState();
             }
