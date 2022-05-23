@@ -70,13 +70,28 @@ namespace CelularAutomatonPRNG
 
         private byte GetNextByte()
         {
+            byte nextByte = 0;
+            for (int i = 0; i < 8; ++i)
+            {
+                // TODO: Find optimization.
+                var number = BitConverter.ToUInt16(new[] { GetNextStateByte(), GetNextStateByte() });
+                if (number >= (ushort.MaxValue >> 1) + 1)
+                {
+                    nextByte |= (byte)(1 << i);
+                }
+            }
+            return nextByte;
+        }
+
+        private byte GetNextStateByte()
+        {
             if (_currentByteIndex < _currentState.Length)
             {
                 return _currentState[_currentByteIndex++];
             }
             _currentByteIndex = 0;
             GetNextState();
-            return GetNextByte();
+            return GetNextStateByte();
         }
 
         private byte[] GetNextState()
