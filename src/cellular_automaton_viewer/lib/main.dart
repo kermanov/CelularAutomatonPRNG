@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   List<List<bool>> states = [];
 
   List<bool> initialState = [];
-  int rule = 0;
+  int rule = 30;
   int length = 64;
   int iterations = 64;
   int seed = 1;
@@ -30,6 +30,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initialState = List.filled(length, false);
+    initialState[length ~/ 2] = true;
+    generateStates();
   }
 
   void generateStates() {
@@ -114,9 +116,9 @@ class _MyAppState extends State<MyApp> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Cellular Automaton Viewer",
+                          "Elementary Cellular Automaton Viewer",
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -130,7 +132,12 @@ class _MyAppState extends State<MyApp> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          onChanged: (value) => rule = int.parse(value),
+                          onChanged: (value) {
+                            var newRule = int.parse(value);
+                            if (newRule >= 0 && newRule <= 256) {
+                              rule = newRule;
+                            }
+                          },
                           controller:
                               TextEditingController(text: rule.toString()),
                           onSubmitted: (_) => {
